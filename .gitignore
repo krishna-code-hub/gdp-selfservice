@@ -1,0 +1,12 @@
+.venv/
+.gdp/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+.env
+error*.txt
+.DS_Store
+.env.*

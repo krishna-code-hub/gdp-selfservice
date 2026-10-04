@@ -1,0 +1,43 @@
+name: Toolkit checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      real_model:
+        description: Call configured remote API and run embedding smoke test
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ['3.11', '3.12', '3.13']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen --python ${{ matrix.python }} --extra dev
+      - run: uv run --frozen ruff check .
+      - run: uv run --frozen pytest
+      - run: uv run --frozen python scripts/query.py validate
+  real-model:
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    if: github.event_name == 'workflow_dispatch' && inputs.real_model
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen --python 3.12 --extra dev
+      - run: uv run --frozen python scripts/query.py validate --embedding
+      - run: uv run --frozen python scripts/smoke_test.py
+      - run: uv run --frozen python scripts/ingest.py
+      - run: uv run --frozen python scripts/query.py evaluate
+      - run: uv run --frozen python scripts/query.py context --query "ingestion schema mismatch" --component ingestion --top-k 2 --budget 1800

@@ -1,0 +1,19 @@
+# Remote OpenAI-compatible embeddings API (full POST URL).
+[embedding]
+model = "text-embedding-3-small"
+endpoint_url = "https://api.openai.com/v1/embeddings"
+# Name of the environment variable holding the bearer token; empty for no auth.
+api_key_env = "OPENAI_API_KEY"
+query_prefix = ""
+tokenizer_encoding = "cl100k_base"
+max_tokens = 8191
+batch_size = 16
+timeout_seconds = 60
+
+[storage]
+# Relative paths are resolved against this config file's directory.
+path = ".gdp"
+# Empty endpoint uses local Chroma. Set an HTTP(S) Chroma server origin to use it.
+endpoint_url = ""
+tenant = "default_tenant"
+database = "default_database"

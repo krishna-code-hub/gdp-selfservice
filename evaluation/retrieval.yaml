@@ -1,0 +1,81 @@
+# Maintained by platform/framework owners. Sanitized queries only.
+# Each positive case expects its guide within the returned top_k, AFTER budgeting.
+# Defaults: top_k=3, budget=1200, max_distance=0.65; filters are optional.
+version: 1
+cases:
+  - id: schema-error-message
+    query: "ingestion schema contract mismatch incompatible column type"
+    component: ingestion
+    expected_id: ING-002
+  - id: schema-plain-language
+    query: "Source column changed from integer to string and ingestion now fails"
+    component: ingestion
+    expected_id: ING-002
+  - id: schema-missing-field
+    query: "Connector rejects records because a required source field is missing"
+    expected_id: ING-002
+  - id: auth-error-message
+    query: "source authentication expired credential"
+    component: ingestion
+    expected_id: ING-001
+  - id: auth-plain-language
+    query: "Our source connector stopped connecting after credentials expired"
+    expected_id: ING-001
+  - id: checkpoint-replay
+    query: "Ingestion checkpoint offset replay duplicate records after restart"
+    component: ingestion
+    expected_id: ING-003
+  - id: dbt-dependency
+    query: "dbt compilation error unresolved ref missing upstream model"
+    component: transformation
+    expected_id: TRN-001
+  - id: spark-memory
+    query: "Spark executor out of memory with skewed partitions"
+    expected_id: TRN-002
+  - id: sql-access
+    query: "consumer SQL permission access denied"
+    component: consumption
+    expected_id: CON-001
+  - id: freshness
+    query: "Dashboard data is stale and latest partition is missing"
+    component: consumption
+    expected_id: CON-002
+  - id: network
+    query: "Platform connection timeout DNS resolution TLS certificate failure"
+    component: platform
+    expected_id: PLT-001
+  - id: unrelated-question
+    query: "How do I bake a chocolate cake?"
+    expect_no_match: true
+  - id: unrelated-with-component
+    query: "How do I tune a violin?"
+    component: ingestion
+    expect_no_match: true
+  - id: clarification-cdp-equivalence
+    query: "What are CDP equivalent tech stacks in GDP platform?"
+    kind: reference
+    expected_id: REF-003
+  - id: clarification-transformation-apis
+    query: "Does transformation support only SQL or PySpark DataFrame operations also?"
+    kind: reference
+    component: transformation
+    expected_id: REF-004
+  - id: troubleshooting-spark-oom
+    query: "Transformation Spark job failed with out of memory issue"
+    kind: troubleshooting
+    component: transformation
+    framework: spark
+    expected_id: TRN-002
+  - id: troubleshooting-spark-pending
+    query: "Transformation Spark job pending for long time without running"
+    kind: troubleshooting
+    component: transformation
+    framework: spark
+    expected_id: TRN-003
+  - id: approved-spark-queue-escalation
+    query: "Spark job pending although application.yaml queue is correct and resources are available"
+    kind: troubleshooting
+    component: transformation
+    framework: spark
+    status: approved
+    expected_id: TRN-003

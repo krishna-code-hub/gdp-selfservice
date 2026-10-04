@@ -1,0 +1,50 @@
+version: 1
+cases:
+  - id: cdp-equivalents
+    query: "What are CDP equivalent tech stacks in GDP platform?"
+    kind: reference
+    status: approved
+    expected_id: TEST-REF-001
+    top_k: 1
+  - id: yarn-migration
+    query: "What replaces YARN and HDFS when moving to GDP?"
+    kind: reference
+    status: approved
+    expected_id: TEST-REF-001
+    top_k: 1
+  - id: sql-dataframe-capability
+    query: "Does transformation support only SQL or PySpark DataFrame operations also?"
+    kind: reference
+    status: approved
+    expected_id: TEST-REF-002
+    top_k: 1
+  - id: programmatic-transform
+    query: "Can I use DataFrames instead of writing SQL transformations?"
+    kind: reference
+    status: approved
+    expected_id: TEST-REF-002
+    top_k: 1
+  - id: exact-heap-message
+    query: "java.lang.OutOfMemoryError: Java heap space"
+    kind: troubleshooting
+    status: approved
+    expected_id: TEST-TRN-001
+    top_k: 1
+  - id: memory-paraphrase
+    query: "Transformation Spark job failed with out of memory issue"
+    kind: troubleshooting
+    status: approved
+    expected_id: TEST-TRN-001
+    top_k: 1
+  - id: pending-state
+    query: "Spark transformation application state pending; no tasks started"
+    kind: troubleshooting
+    status: approved
+    expected_id: TEST-TRN-002
+    top_k: 1
+  - id: pending-paraphrase
+    query: "Transformation Spark job pending for long time without running"
+    kind: troubleshooting
+    status: approved
+    expected_id: TEST-TRN-002
+    top_k: 1
